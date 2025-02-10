@@ -9,7 +9,6 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     $tag = $_POST['tag'];
     $response = array("tag" => $tag, "error" => FALSE);
 
-    // Fetch user by email
     $query = "SELECT * FROM users WHERE email = :email";
     $query_params = array(':email' => $_POST['email']);
 
@@ -25,11 +24,9 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     $row = $stmt->fetch();
 
     if ($tag == 'forgot_pass') {
-        // Generate a new random password
         $newPassword = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-        // Update user's password
         $query = "UPDATE users SET password = :password WHERE email = :email";
         $query_params = array(
             ':password' => $hashedPassword,
@@ -40,10 +37,9 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
             $stmt = $db->prepare($query);
             $stmt->execute($query_params);
 
-            // Send email with new password (for demonstration, we'll just return it in the response)
             $response["error"] = FALSE;
             $response["message"] = "Password reset successful!";
-            $response["new_password"] = $newPassword; // For testing purposes only
+            $response["new_password"] = $newPassword;
             die(json_encode($response));
         } catch (PDOException $ex) {
             $response["error"] = TRUE;

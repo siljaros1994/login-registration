@@ -9,7 +9,6 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     $tag = $_POST['tag'];
     $response = array("tag" => $tag, "error" => FALSE);
 
-    // Fetch user by email
     $query = "SELECT * FROM users WHERE email = :email";
     $query_params = array(':email' => $_POST['email']);
 
@@ -25,7 +24,6 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     $row = $stmt->fetch();
 
     if ($tag == 'verify_code') {
-        // Add OTP verification logic here if needed
         $response["error"] = FALSE;
         $response["message"] = "Verification logic not implemented yet.";
         die(json_encode($response));

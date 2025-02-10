@@ -1,7 +1,7 @@
 <?php
 require(__DIR__ . "/config.php");
 
-header('Content-Type: application/json'); // Ensure correct content type
+header('Content-Type: application/json');
 
 if (!isset($db)) {
     die(json_encode(array("error" => true, "message" => "Database connection not established. Check config.php.")));
@@ -11,7 +11,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Fetch user by email
+    // Here we fetch user by email
     $query = "SELECT id, fullname, username, email, usertype, password FROM users WHERE email = :email";
     $query_params = array(':email' => $email);
 
@@ -30,11 +30,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $response["error"] = FALSE;
         $response["message"] = "Login successful!";
         $response["user"] = array(
-            "id" => intval($row['id']), // Ensure ID is an integer
+            "id" => intval($row['id']),
             "fullname" => $row['fullname'],
             "username" => $row['username'],
             "email" => $row['email'],
-            "usertype" => $row['usertype'] // Donor or Recipient
+            "usertype" => $row['usertype']
         );
         echo json_encode($response);
         exit();
